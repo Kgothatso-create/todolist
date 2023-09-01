@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="authentication-form ">
+    <div class="box ">    
+    <form method="post" action="">
+        {% csrf_token %}
+        <fieldset>
+          <legend>Register</legend>
+          <div class="form-group">
+            <label for="exampleInputEmail1" class="form-label mt-4">UserName</label>
+            {{ form.username }}
+            <span class="error-message">{{ form.username.errors }}</span> <!-- Apply the error-message class to the error message -->
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1" class="form-label mt-4">Email</label>
+            {{ form.email }}
+            <span class="error-message">{{ form.email.errors }}</span> <!-- Apply the error-message class to the error message -->
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1" class="form-label mt-4">Password</label>
+            {{ form.password1 }}
+            <span class="error-message">{{ form.password1.errors }}</span> <!-- Apply the error-message class to the error message -->
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1" class="form-label mt-4">Confirm Password</label>
+            {{ form.password2 }}
+            <span class="error-message">{{ form.password2.errors }}</span> <!-- Apply the error-message class to the error message -->
+          </div>
+          
+         <br>
+          <button type="submit" class="btn btn-success">Register</button>
+        </fieldset>
+            &nbsp;
+            <span class="error-message">{{ form.non_field_errors }}</span> <!-- Apply the error-message class to non-field errors, if any -->
+            &nbsp;
+        <p id="login-link">Already Registered ? <a href="{% url 'login' %}" class="link">Login</a></p>
+      </form>
+      <br>
+      
+    </div>
+</div>
+{% endblock %}

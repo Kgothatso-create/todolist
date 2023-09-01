@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="authentication-form">
+    
+
+    <div class="box">    
+    <form method="post" action="">
+        {% csrf_token %}
+        <fieldset>
+          <legend>Login</legend>
+          <div class="form-group">
+            <label for="exampleInputEmail1" class="form-label mt-4">UserName</label>
+            <input type="text" class="form-control" id="exampleInputUsername" name="username" placeholder="Username" autocomplete="off">
+            
+          </div>
+          
+          <div class="form-group">
+            <label for="exampleInputPassword1" class="form-label mt-4">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" autocomplete="off">
+          </div>
+          
+         <br>
+          <button type="submit" class="btn btn-success">login</button>
+        </fieldset>
+            &nbsp;
+            <div class="info-message">
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            </div>
+            &nbsp;
+        <p id="login-link">Not Registered ? <a href="{% url 'register' %}" class="link">Register</a></p>
+      </form>
+      <br>
+    
+        
+      
+    </div>
+</div>
+{% endblock %}
