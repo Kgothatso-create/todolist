@@ -8,7 +8,13 @@
         <ul>
             <li><h1>{{ task_title }}</h1></li>
             <li>
-                <form method="post">
+                <form method="post" action="{% url 'delete_task' TaskTitle_id=task_title.id %}">
+                    {% csrf_token %}
+                    <input type="submit" name="delete_task" value="Delete list">
+                </form>
+            </li>
+            <li>
+                <form method="post" action="{% url 'list_of_tasks' TaskTitle_id=task_title.id %}">
                     {% csrf_token %}
                     {{ task_form.as_p }}
                     <button type="submit">add task</button>
@@ -20,6 +26,7 @@
                 
             </li>
             {% endfor %}
+
         </ul>
     </div>
 </div>
