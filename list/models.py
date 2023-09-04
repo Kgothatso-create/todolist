@@ -14,7 +14,7 @@ class TaskTitle (models.Model):
         ordering = ['created']
 
 class Task(models.Model):
-    title = models.ForeignKey(TaskTitle, on_delete=models.CASCADE)
+    task_title = models.ForeignKey(TaskTitle, on_delete=models.CASCADE)
     task_name = models.CharField(max_length=200)
     complete = models.BooleanField(default=False)
     task_importance = models.CharField(max_length=10, choices=[('low', 'Low'), ('medium', 'Medium'), ('high', 'High')])

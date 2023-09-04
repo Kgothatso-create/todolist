@@ -1,0 +1,18 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block content %}
+<div class="authentication-form">
+    <div class="box">
+        
+        <ul>
+            <li><h1>{{ taskname }}</h1></li>
+            
+            {% for detail in details %}
+                <li>{{ detail.task_description }}</li>
+            {% endfor %}
+            
+        </ul>
+    </div>
+</div>
+{% endblock %}
