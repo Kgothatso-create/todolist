@@ -12,6 +12,8 @@
                 <li>{{ detail.task_description }}</li>
             {% endfor %}
             
+            <li><a href="{% url 'add_task_details'  taskname.id %}"><button>add task details</button></a></li>
+            
         </ul>
     </div>
 </div>

@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 
-
+#Register view
 def registerPage (request):
     form = CreateUserForm()
 
@@ -25,6 +25,7 @@ def registerPage (request):
     context = {'form':form}
     return render(request, "register.html", context)
 
+# login view
 def loginPage (request):
     
     if request.method == 'POST':
@@ -45,11 +46,15 @@ def loginPage (request):
     context = {}
     return render(request,'login.html', context)
 
+#logout view
 def logOutUser(request):
     logout(request)
     return redirect ('login')
 
+
 # task views here
+
+#task home here
 def index (request):
     user=request.user
     task_title = TaskTitle.objects.filter(user=user)
@@ -57,7 +62,8 @@ def index (request):
     context = {'task_title':task_title, 'username':username}
     return render(request,'index.html', context)
 
-def list_of_tasks(request,TaskTitle_id):
+# liat of tasks under a tast title
+def see_list_of_tasks(request,TaskTitle_id):
     task_title = get_object_or_404(TaskTitle, pk=TaskTitle_id)
     tasks = Task.objects.filter(task_title=task_title)
     task_form = TaskForm()
@@ -77,7 +83,8 @@ def list_of_tasks(request,TaskTitle_id):
     context = {'tasks':tasks,'task_title':task_title, 'task_form': task_form }
     return render(request, 'tasklist.html', context)
 
-def task_details(request,Task_id):
+# a single tasks details
+def see_task_details(request,Task_id):
     taskname = get_object_or_404(Task, pk=Task_id)
     details = TaskDescription.objects.filter(taskname=taskname)
 
@@ -85,6 +92,7 @@ def task_details(request,Task_id):
 
     return render(request,'taskdetails.html', context)
 
+# create a task title
 def create_title(request):
     if request.method == 'POST':
         title_form = TaskTitleForm(request.POST)
@@ -102,17 +110,27 @@ def create_title(request):
     context = {'title_form': title_form}
     return render(request, 'addtodo.html', context)
 
+# add or edit a tasks details
 def add_task_details(request, task_id):
-    task = Task.objects.get(id=task_id)
-    task_details_form = EditTaskForm()
+    task = get_object_or_404(Task, pk=task_id)
+    existing_details = TaskDescription.objects.filter(taskname=task).first()  # Get existing details if they exist
 
     if request.method == 'POST':
-        task_details_form = EditTaskForm(request.POST, instance=task)
+        task_details_form = TaskDiscriptionForm(request.POST, instance=existing_details)
         if task_details_form.is_valid():
-            task_details_form.save()
-            
-            return redirect('taskdetails')  
+            task_description = task_details_form.save(commit=False)
+            task_description.taskname = task
+            task_description.save()
+
+            # Redirect back to the task details page
+            return redirect('task_details', Task_id=task_id)
+
     else:
-        task_details_form = EditTaskForm(instance=task)
+        if existing_details:
+            # If there are existing details, initialize the form with them for editing
+            task_details_form = TaskDiscriptionForm(instance=existing_details)
+        else:
+            # If there are no existing details, create a new form
+            task_details_form = TaskDiscriptionForm()
 
     return render(request, 'addtaskdetail.html', {'task_details_form': task_details_form, 'task': task})

@@ -11,8 +11,8 @@
             <li>
                 <form method="post">
                     {% csrf_token %}
-                    {{ task_form.as_p }}
-                    <button type="submit">Create Task</button>
+                    {{ task_details_form.as_p }}
+                    <button type="submit">Add Details</button>
                 </form>
             </li>
             

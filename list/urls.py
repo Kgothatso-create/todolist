@@ -23,10 +23,11 @@ urlpatterns = [
     path('login/', views.loginPage, name = 'login'),
     path('logout/', views.logOutUser, name = 'logout'),
     
-    path('list_of_tasks/<int:TaskTitle_id>/', views.list_of_tasks, name='list_of_tasks'),
-    path('task_details/<int:Task_id>/', views.task_details, name='task_details'),
+    path('list_of_tasks/<int:TaskTitle_id>/', views.see_list_of_tasks, name='list_of_tasks'),
+    path('task_details/<int:Task_id>/', views.see_task_details, name='task_details'),
 
     path('create/', views.create_title, name='create'),
-    path('add_details/', views.add_task_details, name='add_details'),
+    
+    path('add_task_details/<int:task_id>/', views.add_task_details, name='add_task_details'),
 ]
 
