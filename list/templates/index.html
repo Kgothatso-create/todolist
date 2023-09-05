@@ -2,5 +2,22 @@
 {% load static %}
 
 {% block content %}
-<h1>yellow</h1>
+<div class="authentication-form ">
+    <div class="box ">    
+        
+
+        <ul>
+            <li><h1>yellow</h1></li>
+            <li>
+                {% for titles in task_title %}
+
+                <p> <a href="{% url 'list_of_tasks' TaskTitle_id=titles.id %}">{{titles}}</a> </p>
+            
+                {% endfor %}
+                
+            </li>
+        </ul>
+        
+    </div>
+</div>
 {% endblock %}

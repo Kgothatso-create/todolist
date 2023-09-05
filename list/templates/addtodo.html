@@ -1,0 +1,27 @@
+{% extends 'home.html' %} 
+{% load static %} 
+{% block content %}
+    <div class="authentication-form">
+        <div class="box">
+            {% for title in titles_with_tasks %}
+                <h2>{{ title.title }}</h2>
+                <ul>
+                    {% for task in title.task_set.all %}
+                    <li>{{ task.task_name }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+
+            <ul>
+                <li>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ title_form.as_p }}
+                        <button type="submit">Create Title</button>
+                    </form>
+                </li>
+            </ul>
+            
+        </div>
+    </div>
+{% endblock %}
