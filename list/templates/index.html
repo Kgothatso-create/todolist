@@ -3,19 +3,31 @@
 
 {% block content %}
 <div class="authentication-form ">
-    <div class="box ">    
+    <div class="home-box ">    
         
 
         <ul>
-            <li><h1>yellow</h1></li>
+            <li><h1>Welcome {{username}}</h1></li>
             <li>
-                {% for titles in task_title %}
-
-                <p> <a href="{% url 'list_of_tasks' TaskTitle_id=titles.id %}">{{titles}}</a> </p>
-            
-                {% endfor %}
-                
+                <button type="button" class="btn btn-success"><a href="{% url 'create' %}" style="color: black;">Add Todo List</a></button>
             </li>
+            <li style="margin-top: 5%;">
+                {% if not task_title %}
+                    <h6>No Todo Lists</h6>
+                {% else %}
+                    <h6 style="text-decoration: underline;">Todo Lists:</h6>
+                    {% for titles in task_title %}
+
+                    <div style="background: rgb(251, 251, 87);">
+                        <p > <a href="{% url 'list_of_tasks' TaskTitle_id=titles.id %}" >{{titles}} <span style="margin-right: 50%;"></span> {{titles.created}}</p>
+                        
+                    </div>
+
+                    {% endfor %}
+
+                {% endif %}
+            </li>
+            
         </ul>
         
     </div>

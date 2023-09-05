@@ -28,6 +28,17 @@ urlpatterns = [
 
     path('create/', views.create_title, name='create'),
     
-    path('add_task_details/<int:task_id>/', views.add_task_details, name='add_task_details'),
+    path('delete_task/<int:TaskTitle_id>/', views.delete_task, name='delete_task'),
+
+    path('delete_task_details/<int:TaskDescription_id>/', views.delete_task_details, name='delete_task_details'),
+
+    path('edit_title/<int:TaskTitle_id>/', views.edit_title, name='edit_title'),
+
+    path('update_task/<int:TaskTitle_id>/<int:task_id>/', views.update_task, name='update_task'),
+
+    path('delete_task/<int:TaskTitle_id>/<int:task_id>/', views.delte_task, name='delete_task'),
+
+    path('complete_task/<int:TaskTitle_id>/<int:task_id>/', views.complete_task, name='complete_task'),
+
 ]
 

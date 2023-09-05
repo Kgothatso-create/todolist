@@ -21,12 +21,9 @@ class TaskForm(forms.ModelForm):
 class EditTaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['task_name','complete','task_importance']
+        fields = ['complete']
 
-class TaskDiscriptionForm(forms.ModelForm):
+class TaskDescriptionForm(forms.ModelForm):
     class Meta:
         model = TaskDescription
-        fields = ['task_description', 'taskname']
-        widgets = {
-            'taskname': forms.HiddenInput(),
-        }
+        fields = ['task_description']

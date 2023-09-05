@@ -6,13 +6,34 @@
     <div class="box">
         
         <ul>
-            <li><h1>{{ taskname }}</h1></li>
-            
-            {% for detail in details %}
-                <li>{{ detail.task_description }}</li>
-            {% endfor %}
-            
-            <li><a href="{% url 'add_task_details'  taskname.id %}"><button>add task details</button></a></li>
+            <li><h1>{{ taskname }}</h1></li>            
+            <li>
+                {% if not details %}
+                    <p>No Details</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ task_details_form.as_p }}
+                        
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ task_details_form.as_p }}
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                    <div>
+                        <form method="post" action="{% url 'delete_task_details' details.id %}" style="margin-top: 5%;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" >Clear Details</button>
+                        </form>
+                    </div>
+                    
+
+                {% endif %}
+            </li>
+
+            <li><button type="button" class="btn btn-info"><a href="#">Back</a></button></li>
             
         </ul>
     </div>
