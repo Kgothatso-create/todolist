@@ -3,17 +3,27 @@
 
 {% block content %}
 <div class="authentication-form">
-    <div class="box">
+    <div class="home-box">
         
         <ul>
-            <li><h1>{{ task_title }}</h1></li>
             <li>
-                <form method="post" action="{% url 'delete_task' TaskTitle_id=task_title.id %}">
-                    {% csrf_token %}
-                    
-                    <button type="submit" name="delete_task" class="btn btn-danger">Delete list</button>
-                </form>
+                <h1>{{ task_title }}</h1>
+                
             </li>
+            
+            <li>
+                <div style="display: inline-flex;">
+                    <button type="button" class="btn btn-info" ><a href="{% url 'edit_title' TaskTitle_id=task_title.id %}" style="color: black;">edit title</a></button>
+
+                    <form method="post" action="{% url 'delete_task' TaskTitle_id=task_title.id %}">
+                        {% csrf_token %}
+                        
+                        <button type="submit" name="delete_task" class="btn btn-danger" style="color: black;">Delete list</button>
+                    </form>
+                </div>
+                
+            </li>
+            
             <div style="background: #ffd500; width:20rem; margin-top: 5%; margin-bottom: 5%;">
                 <li>
                     <h6>ADD TASK</h6>
@@ -21,12 +31,14 @@
                         {% csrf_token %}
                         {{ task_form.as_p }}
                         
-                        <button type="submit" class="btn btn-primary">add List Item</button>
+                        <button type="submit" class="btn btn-success" style="color: black;">add List Item</button>
                     </form>
                 </li>
             </div>
             
-            <div style="font-size: 150%;">
+            <hr style="border-top: 3px solid black;">
+
+            <div >
                 <li>
                     {% if not tasks %}
                     <h6>No Todo list items</h6>
@@ -34,7 +46,32 @@
                         <h6 style="text-decoration: underline;">Todo List:</h6>
 
                         {% for task in tasks %}
-                        <li><a href="{% url 'task_details' Task_id=task.id %}">{{ task.task_name }}</a></li>
+                        <li style="margin-top: 2%;">
+                            <div class="task-info">
+
+                                
+                                <form method="post" action="{% url 'complete_task' TaskTitle_id=task_title.id task_id=task.id %}">
+                                    {% csrf_token %}
+
+                                    <div style="display: inline;">
+                                        <input type="checkbox" name="complete" id="complete-checkbox" {% if task.complete %}checked{% endif %}>
+
+                                        <button type="submit" class="btn btn-success" style="margin-left: 15px; color: black;">Check</button>
+                                    </div>
+                                    
+                                </form>
+                
+                                <p class="task-name {% if task.complete %}complete{% endif %}">{{ task.task_name }}</p>
+                                <p class="task-importance {% if task.complete %}complete{% endif %}">{{ task.task_importance }}</p>
+
+                                <span style="margin-right: 10%;"></span>
+                                <button type="button" class="btn btn-info" style="float: right; font-size: small;"><a href="{% url 'task_details' Task_id=task.id %}">Task Details</a></button>
+                                <button type="button" class="btn btn-warning"><a href="{% url 'update_task' TaskTitle_id=task_title.id task_id=task.id %}">Edit Task</a></button>
+                                <button type="button" class="btn btn-danger" style="float: right; font-size: small;"><a href="{% url 'delete_task' TaskTitle_id=task_title.id task_id=task.id %}">Delete Task</a></button>
+                                
+                            </div>
+                        </li>
+
                         {% endfor %}
 
                     {% endif %}

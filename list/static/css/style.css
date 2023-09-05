@@ -66,3 +66,27 @@ input[type="password"] {
 ul {
     list-style: none;
 }
+
+/* home css style */
+.home-box{
+    width: 50rem;
+    height: auto;
+    background: #f8da5b; 
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0rem 1rem 20rem black;
+}
+
+.task-info{
+    background: rgb(251, 251, 87); 
+    display: flex; 
+    justify-content: space-evenly; 
+    width: 45rem ;
+}
+
+/* Add a line-through style for completed tasks */
+.complete {
+    text-decoration: line-through;
+}

@@ -1,0 +1,33 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block content %}
+<div class="authentication-form">
+    <div class="box">
+        
+        <ul>
+            <li>
+                <h1>{{ task_title }}</h1>
+                
+            </li>
+            
+            <div style="background: #ffd500; width:20rem; margin-top: 5%; margin-bottom: 5%;">
+                <li>
+                    <h6>DELETE TASK</h6>
+                    <p>{{task.task_name}}</p>
+                    <form method="post" >
+                        {% csrf_token %}
+                        {{ task_form.as_p }}
+                        
+                        <button type="submit" class="btn btn-success" style="color: black;">Delete Task</button>
+                    </form>
+                    
+                </li>
+            </div>
+            
+            
+
+        </ul>
+    </div>
+</div>
+{% endblock %}

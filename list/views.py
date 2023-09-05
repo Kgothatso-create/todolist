@@ -65,7 +65,7 @@ def index (request):
 # list of tasks under a tast title
 def see_list_of_tasks(request,TaskTitle_id):
     task_title = get_object_or_404(TaskTitle, pk=TaskTitle_id)
-    tasks = Task.objects.filter(task_title=task_title)
+    tasks = Task.objects.filter(task_title=task_title).order_by('complete')
     task_form = TaskForm()
 
     if request.method == 'POST':
@@ -82,10 +82,6 @@ def see_list_of_tasks(request,TaskTitle_id):
 
     context = {'tasks':tasks,'task_title':task_title, 'task_form': task_form }
     return render(request, 'tasklist.html', context)
-
-# delete single task
-def delete_task(request, task_id):
-    pass
 
 # a single tasks details view and edit
 def see_task_details(request, Task_id):
@@ -161,19 +157,60 @@ def delete_task(request, TaskTitle_id):
         return render(request, 'tasklist.html', context)
     
 # update title
-def update_title(request , tasktitle_id):
+def edit_title(request, TaskTitle_id):
+    task_title = get_object_or_404(TaskTitle, pk=TaskTitle_id)
+
     if request.method == 'POST':
-        title_form = TaskTitleForm(request.POST)
+        title_form = TaskTitleForm(request.POST, instance=task_title)
 
         if title_form.is_valid():
-            
-            new_title = title_form.save()
-            new_title.user = request.user
-            new_title.save()
-
-            return redirect('list_of_tasks', TaskTitle_id=new_title.id)
+            title_form.save()
+            return redirect('list_of_tasks', TaskTitle_id=task_title.id)
     else:
-        title_form = TaskTitleForm()
+        title_form = TaskTitleForm(instance=task_title)
 
-    context = {'title_form': title_form}
-    return render(request, 'addtodo.html', context)
+    context = {'title_form': title_form, 'task_title': task_title}
+    return render(request, 'edittitle.html', context)
+
+def update_task(request, TaskTitle_id, task_id):
+    task_title = get_object_or_404(TaskTitle, pk=TaskTitle_id)
+    task = get_object_or_404(Task, pk=task_id, task_title=task_title)
+    task_form = TaskForm(instance=task)
+
+    if request.method == 'POST':
+        task_form = TaskForm(request.POST, instance=task)
+
+        if task_form.is_valid():
+            task_form.save()
+
+            return redirect('list_of_tasks', TaskTitle_id=TaskTitle_id)
+
+    context = {'task_title': task_title, 'task_form': task_form, 'edit_mode': True, 'task_id': task_id}
+    return render(request, 'update_task.html', context)
+
+def delte_task(request, TaskTitle_id, task_id):
+    task_title = get_object_or_404(TaskTitle, pk=TaskTitle_id)
+    task = get_object_or_404(Task, pk=task_id, task_title=task_title)
+
+    if request.method == 'POST':
+        task.delete()
+        return redirect ('list_of_tasks', TaskTitle_id=TaskTitle_id)
+    
+    else:
+
+        context = {'task_title': task_title, 'task_id': task_id , 'task':task}
+        return render(request, 'delete_task.html', context)
+
+def complete_task(request, TaskTitle_id, task_id):
+    task = get_object_or_404(Task, pk=task_id, task_title__id=TaskTitle_id)
+
+    if request.method == 'POST':
+        form = EditTaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('list_of_tasks', TaskTitle_id=TaskTitle_id)
+
+    # Handle GET requests or form validation errors
+    form = EditTaskForm(instance=task)
+    context = {'task_title': task.task_title, 'task_id': task_id, 'task': task, 'form': form}
+    return render(request, 'list_of_tasks.html', context)

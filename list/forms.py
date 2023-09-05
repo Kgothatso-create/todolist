@@ -21,7 +21,7 @@ class TaskForm(forms.ModelForm):
 class EditTaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['task_name','complete','task_importance']
+        fields = ['complete']
 
 class TaskDescriptionForm(forms.ModelForm):
     class Meta:
