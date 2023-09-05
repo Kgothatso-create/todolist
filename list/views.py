@@ -83,18 +83,9 @@ def see_list_of_tasks(request,TaskTitle_id):
     context = {'tasks':tasks,'task_title':task_title, 'task_form': task_form }
     return render(request, 'tasklist.html', context)
 
-# delete list of tasks by deleting the task title
-def delete_task(request, Task_id):
-    task = Task.objects.filter(task=Task_id)
-
-    if request.method == 'POST':
-        # Delete all tasks associated with the title
-        task.delete()
-        return redirect('index')
-    else:
-
-        context = {'task': task}
-        return render(request, 'tasklist.html', context)
+# delete single task
+def delete_task(request, task_id):
+    pass
 
 # a single tasks details view and edit
 def see_task_details(request, Task_id):
@@ -168,3 +159,21 @@ def delete_task(request, TaskTitle_id):
 
         context = {'task_title': task_title}
         return render(request, 'tasklist.html', context)
+    
+# update title
+def update_title(request , tasktitle_id):
+    if request.method == 'POST':
+        title_form = TaskTitleForm(request.POST)
+
+        if title_form.is_valid():
+            
+            new_title = title_form.save()
+            new_title.user = request.user
+            new_title.save()
+
+            return redirect('list_of_tasks', TaskTitle_id=new_title.id)
+    else:
+        title_form = TaskTitleForm()
+
+    context = {'title_form': title_form}
+    return render(request, 'addtodo.html', context)

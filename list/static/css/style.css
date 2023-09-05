@@ -7,6 +7,10 @@
     
 }
 
+a {
+    text-decoration: none;
+}
+
 .box{
     width: 32rem;
     height: auto;
@@ -40,7 +44,6 @@ input[type="text"],
 input[type="email"],
 input[type="password"] {
     width: 100%; 
-   
 }
 
 .info-message{

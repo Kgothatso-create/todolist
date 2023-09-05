@@ -7,15 +7,20 @@
         
 
         <ul>
-            <li><h1>yellow</h1></li>
-            <li><a href="{% url 'create' %}">create</a></li>
-            <li>
-                {% for titles in task_title %}
+            <li><h1>Welcome {{username}}</h1></li>
+            <li><button type="button" class="btn btn-success"><a href="{% url 'create' %}">Add Todo List</a></button></li>
+            <li style="margin-top: 5%;">
+                {% if not task_title %}
+                    <h6>No Todo Lists</h6>
+                {% else %}
+                    <h6>Todo Lists:</h6>
+                    {% for titles in task_title %}
 
-                <p> <a href="{% url 'list_of_tasks' TaskTitle_id=titles.id %}">{{titles}}</a> </p>
-            
-                {% endfor %}
+                    <p> <a href="{% url 'list_of_tasks' TaskTitle_id=titles.id %}">{{titles}}</a> </p>
                 
+                    {% endfor %}
+
+                {% endif %}
             </li>
         </ul>
         

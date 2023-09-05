@@ -10,22 +10,38 @@
             <li>
                 <form method="post" action="{% url 'delete_task' TaskTitle_id=task_title.id %}">
                     {% csrf_token %}
-                    <input type="submit" name="delete_task" value="Delete list">
+                    
+                    <button type="submit" name="delete_task" class="btn btn-danger">Delete list</button>
                 </form>
             </li>
-            <li>
-                <form method="post" action="{% url 'list_of_tasks' TaskTitle_id=task_title.id %}">
-                    {% csrf_token %}
-                    {{ task_form.as_p }}
-                    <button type="submit">add task</button>
-                </form>
-            </li>
-            {% for task in tasks %}
-            <li>
-                <a href="{% url 'task_details' Task_id=task.id %}">{{ task.task_name }}</a>
+            <div style="background: #ffd500; width:20rem; margin-top: 5%; margin-bottom: 5%;">
+                <li>
+                    <h6>ADD TASK</h6>
+                    <form method="post" action="{% url 'list_of_tasks' TaskTitle_id=task_title.id %}">
+                        {% csrf_token %}
+                        {{ task_form.as_p }}
+                        
+                        <button type="submit" class="btn btn-primary">add List Item</button>
+                    </form>
+                </li>
+            </div>
+            
+            <div style="font-size: 150%;">
+                <li>
+                    {% if not tasks %}
+                    <h6>No Todo list items</h6>
+                    {% else %}
+                        <h6 style="text-decoration: underline;">Todo List:</h6>
+
+                        {% for task in tasks %}
+                        <li><a href="{% url 'task_details' Task_id=task.id %}">{{ task.task_name }}</a></li>
+                        {% endfor %}
+
+                    {% endif %}
+                    
+                </li>
                 
-            </li>
-            {% endfor %}
+            </div>
 
         </ul>
     </div>

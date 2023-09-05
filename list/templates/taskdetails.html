@@ -9,28 +9,33 @@
             <li><h1>{{ taskname }}</h1></li>
             
             <li>
-                {% if details %}
-                    <p>{{ details.task_description }}</p>
+                {% if not details %}
+                    <p>No Details</p>
                     <form method="post">
                         {% csrf_token %}
                         {{ task_details_form.as_p }}
-                        <button type="submit">Save</button>
-                    </form>
-                    <form method="post" action="{% url 'delete_task_details' details.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        
+                        <button type="submit" class="btn btn-success">Save</button>
                     </form>
                 {% else %}
-                    <!-- If no details exist, show a message or form for creating details -->
-                    <p>No task details found.</p>
-                    <!-- Add a form for creating details if needed -->
                     <form method="post">
                         {% csrf_token %}
                         {{ task_details_form.as_p }}
-                        <button type="submit">Create Details</button>
+                        <button type="submit" class="btn btn-success">Save</button>
                     </form>
+                    <div>
+                        <form method="post" action="{% url 'delete_task_details' details.id %}" style="margin-top: 5%;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" >Clear Details</button>
+                        </form>
+                    </div>
+                    
+
                 {% endif %}
             </li>
+
+            <li><button type="button" class="btn btn-info"><a href="#">Back</a></button></li>
+            
         </ul>
     </div>
 </div>
